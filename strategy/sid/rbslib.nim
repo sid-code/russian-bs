@@ -75,8 +75,8 @@ proc parseCardList*(list: string, sep: string = ","): seq[Card] =
 proc findRank*(pile: seq[Card], rank: Rank): seq[Card] =
   pile.filter(proc(c: Card): bool = c.rank == rank)
 
-proc makePlay*(cs: seq[Card], rank = cs[0].rank): string =
-  "$#$#;$#" % [$cs.len, rank.name, $cs]
+proc makePlay*(cs: seq[Card], rank: Rank): string =
+  return "$#$#;$#" % [$cs.len, rank.name, $cs]
 
 proc parseBoardLine(game: var RBSGame, line: string) =
   let
