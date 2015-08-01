@@ -22,8 +22,7 @@ to the dealer program.
 ## Important note
 
 I've changed up the dealer output to make it easier for client programs to parse.
-For the time being, Jalex's strategies won't work but I'll fix this soon. Here
-is the format:
+I've fixed Jalex's strategy files to work with this format. Here is the format:
 
 Board file:
 
