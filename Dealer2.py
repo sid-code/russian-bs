@@ -135,7 +135,7 @@ class Game():
 					self.to_move = (self.to_move + 1) % self.n_players
 				elif outcome == 'good call':
 					continue
-		print "GAME|", ",".join(self.winners)
+		print "GAME|", ",".join(map(str, self.winners))
 
 class Player():
 	def __init__(self, game, position, progname):
