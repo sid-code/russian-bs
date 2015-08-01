@@ -55,6 +55,8 @@ proc `$`*(player: RBSPlayer): string =
 proc `$`*(game: RBSGame): string =
   result = ""
   result &= "board: $#, dpile: $#\n" % [$game.board, $game.discardPile]
+  if game.rankLock:
+    result &= "rank locked: $#\n" % [$game.currentClaim]
   result &= "history: \n"
   for act in game.history:
     result &= " - " & $act & "\n"
