@@ -35,7 +35,7 @@ proc calculateMove(game: RBSGame, cs: seq[Card]): string =
       numCards = possibleCards.len
 
     if numCards > 0:
-      return makePlay(possibleCards)
+      return makePlay(possibleCards, rank)
     else:
       return "BS"
   else:
@@ -48,7 +48,7 @@ proc calculateMove(game: RBSGame, cs: seq[Card]): string =
         maxRank = rank
 
     let play = cs.findRank(maxRank)
-    return makePlay(play)
+    return makePlay(play, maxRank)
 
 
 
