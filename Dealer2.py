@@ -145,7 +145,7 @@ class Player():
 		if not os.path.exists('./logs'):
 			os.mkdir('./logs')
 		self.log = os.path.abspath("./logs/%04dP%d.hand"%(self.game.id, self.position))
-		open(self.log,'a').close
+		open(self.log,'a').close()
 
 		self.cards = []
 
