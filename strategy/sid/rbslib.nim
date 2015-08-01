@@ -134,3 +134,21 @@ proc parseBoard*(game: var RBSGame, ls: seq[string]) =
     if line.strip().len == 0:
       continue
     parseBoardLine(game, line)
+
+proc getGameState*(args: seq[string]):
+  tuple[game: RBSGame, player: RBSPlayer, hand: seq[Card]] =
+
+  let board = readFile(args[0]).split("\n")
+  let hand = readFile(args[1]).split("\n")
+
+  var game = newRBSGame()
+  parseBoard(game, board)
+
+  # The only relevant parts of the hand file are the first line and the last line
+  # The first line contains the player name and the last line contains the current
+  # cards in hand.
+
+  let player = game.findPlayerByName(hand[0].split("|")[1])
+  let cardsInHand = parseCardList(hand[^2].split("|")[1])
+
+  return (game, player, cardsInHand)
