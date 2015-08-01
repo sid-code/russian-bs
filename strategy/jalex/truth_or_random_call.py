@@ -11,7 +11,7 @@ from Player import *
 # If it can't play cards, it calls BS or Believe at random.
 
 
-history, last_move, last_to_play, card_string, position = initalize()
+history, last_move, last_to_play, card_string, position = init()
 cards = card_string.split(',')
 
 call_is_legal, legal_rank = calculate_legal_move(last_move)

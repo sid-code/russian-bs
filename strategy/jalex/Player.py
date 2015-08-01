@@ -9,7 +9,7 @@ import random
 # This strategy always tells the truth if it can, playing a maximal number of cards.
 # If it can't play cards, it calls BS or Believe at random.
 
-def initalize():
+def init():
 	board_file = open(sys.argv[1], 'r')
 	last_move = board_file.readlines()[-1]
 	board_file.close()
@@ -17,11 +17,11 @@ def initalize():
 	hand_file = open(sys.argv[2], 'r')
 	history = hand_file.readlines()	
 	hand_file.close()
+        exit
+	last_to_play = int(last_move.split("|")[1][1])
 
-	last_to_play = int(last_move.split()[0][1])
-
-	card_string = history[-1].strip('Hand: ')
-	position = int(history[0][1])
+	card_string = history[-1].strip('HAND|')
+	position = int(history[0].strip('PLAYER|P'))
 	return (history, last_move, last_to_play, card_string, position)
 
 def play(move):
@@ -39,12 +39,12 @@ const_cards = [a + b for a in const_ranks for b in const_suits]
 
 def calculate_legal_move(last_move):
 	'''Returns whether it is legal to call, and if so, what rank is legal to claim'''
-	if last_move.split()[1] in ['calls', 'starts']:
+	if last_move.split("|")[0] in ['CALL', 'START']:
 		call_is_legal = False
 		legal_rank = 'wild' #wild
 	else:
 		call_is_legal = True
-		legal_rank = last_move.split(',')[0][-1]
+		legal_rank = last_move.split('|')[2][-1]
 	return (call_is_legal, legal_rank)
 
 def calculate_maximal_rank(card_string):
