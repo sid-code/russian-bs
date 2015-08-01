@@ -5,7 +5,7 @@ class InvalidMove(Exception):
 	def __init__(self, current_move, last_move):
 		self.current_move = current_move
 		self.last_move = last_move
-		print '\nTried to play', current_move, 'afer', last_move,'\n\n'
+		print '\nTried to play', current_move, 'after', last_move,'\n\n'
 
 class InvalidMoveSyntax(Exception):
 	def __init__(self, move):
@@ -145,7 +145,7 @@ class Player():
 		if not os.path.exists('./logs'):
 			os.mkdir('./logs')
 		self.log = os.path.abspath("./logs/%04dP%d.hand"%(self.game.id, self.position))
-		open(self.log,'a').close
+		open(self.log,'a').close()
 
 		self.cards = []
 
