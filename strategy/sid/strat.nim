@@ -18,7 +18,6 @@ for line in hand:
 
 var game = newRBSGame()
 parseBoard(game, board)
-echod game
 
 # The only relevant parts of the hand file are the first line and the last line
 # The first line contains the player name and the last line contains the current
