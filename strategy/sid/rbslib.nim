@@ -93,8 +93,6 @@ proc parseBoardLine(game: var RBSGame, line: string) =
         claimstr = args[1]
         cardsLeft = parseInt(args[2])
         claimNumber = parseInt(claimstr[0..0])
-      echod "THE LINE WAS " & line
-      let
         claimRank = toRank(claimstr[1..1])
         action = RBSAction(kind: aPlay, play: (claimNumber, claimRank))
 
