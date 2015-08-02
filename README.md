@@ -11,13 +11,17 @@ All strategy files should go in `strategy/your-name`.
 $ python Dealer2.py strategy-executable1 strategy-executable2 [strategy-executable3 ...]
 ```
 
-The files need to be executable. On Unix-based systems, this means that if
-you're writing it in a interpreted language like Python, you'll need to use
-Jalex's hack (see the top of his strategy files.) Also, the file needs to
-be marked as executable (`chmod +x file`).
+If you're using Python (or any other scripting language) to make your
+strategies, `strategy-executable` needs to be `"python path/to/script.py"`
+(with the quotes!) **You no longer need the shell script hack to run
+non-standalone programs as strategies.**
 
-If you're not using a Unix-based system, it won't work without modifications
-to the dealer program.
+For example, if you want to pit Jalex's strategies against each other,
+run this from the project root:
+
+```
+$ python Dealer2.py "python strategy/jalex/bs_or_one_card.py" "python strategy/jalex/truth_or_random_call.py"
+```
 
 ## Important note
 
