@@ -4,8 +4,7 @@
 logs
 nimcache
 *.pyc
-.*.sw*
-.sw*
+*.sw*
 
 !strategy
 !strategy/**
