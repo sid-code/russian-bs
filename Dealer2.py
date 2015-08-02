@@ -153,7 +153,11 @@ class Player():
 		'''Writes hand to file, then asks program to write hand to file, returns move'''
 		self.log_write('HAND|' + ','.join(self.cards))
 		log = open(self.log, 'a+')
-		subprocess.call([self.progname, self.game.board, self.log],stdout = log,stderr = sys.stdout)
+		subprocess.call(" ".join([self.progname, self.game.board, self.log]),
+                                 stdout = log,
+                                 stderr = sys.stdout,
+                                 shell = True)
+
 		log.close()
 		log = open(self.log, 'r')
 		out = [x for x in log.readlines() if x.strip() != '']

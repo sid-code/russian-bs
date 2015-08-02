@@ -1,7 +1,3 @@
-#! /bin/sh
-""":"
-exec python2 $0 ${1+"$@"}
-"""
 import sys
 import random
 from Player import calculate_legal_move, calculate_maximal_rank, init
@@ -32,7 +28,6 @@ def play(move):
 
 def print_to_screen(message):
 	sys.stderr.write(message)
-
 
 const_ranks = "A23456789TJKQ"
 const_suits = "SCDH"

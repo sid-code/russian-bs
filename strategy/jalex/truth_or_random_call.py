@@ -1,7 +1,3 @@
-#! /bin/sh
-""":"
-exec python2 $0 ${1+"$@"}
-"""
 import sys
 import random
 from Player import *
