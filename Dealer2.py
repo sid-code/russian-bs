@@ -27,7 +27,7 @@ class Game():
 		self.board = os.path.abspath('./logs/%04d.board'%self.id)
 		open(self.board,'a').close()
 		self.display = display
-	
+
 		self.players = []
 		n=0
 		for p in prognames:
@@ -69,12 +69,12 @@ class Game():
 
 	def play_move(self, player):
 		'''Updates self.table and self.last_move, and returns the kind of turn that occurred.'''
-		move = player.get_move() 
+		move = player.get_move()
 		# print 'P%d move again: '%player.position, move
 		#return all caps string of move
 		def split_move(move):
 			m = move.upper()
-			try: 
+			try:
 				# print 'split_move', m.split(';')
 				claim = m.split(';')[0]
 				cards = m.split(';')[1].split(',')
