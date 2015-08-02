@@ -42,3 +42,10 @@ Hand file:
 PLAYER|P0                       # Your name
 HAND|2H,2C,2D,3H, ...           # List of cards, separated by comma
 ```
+
+## To-Do list
+
+Here's what I'm going to be working on, probably in order:
+
+ * More strategies that involve lying and intelligent calling
+ * Some kind of way to present the game as it is being played (for the project fair)
