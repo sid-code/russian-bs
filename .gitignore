@@ -7,4 +7,4 @@ nimcache
 *.sw*
 
 !strategy
-!strategy/**
+!strategy/*
