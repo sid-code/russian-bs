@@ -82,7 +82,6 @@ class Game():
 			except:
 				raise InvalidMoveSyntax(move)
 
-
 		if move in ['BS','BELIEVE']:
 			if self.last_move['call']:
 				raise InvalidMove(move, self.last_move)
@@ -92,19 +91,21 @@ class Game():
                                 # CALL|caller|call_type|reveal|BAD or GOOD|who takes cards
 
 				out = 'CALL|P%d|%s|%s'%(player.position, move, self.last_move['cards'])
-				self.last_move = {'player':player.position, 'call':move, 'claim':'', 'cards':''}
+                                result = ''
 				if (move == 'BS' and truth) or (move == 'BELIEVE' and not truth):
 					player.take_board()
 					self.board_write(out + '|BAD|P%d'%(player.position))
-					return 'bad call'
+                                        result = 'bad call'
 				elif move == 'BS' and not truth:
 					self.players[self.last_move['player']].take_board()
 					self.board_write(out + '|GOOD|P%d'%self.last_move['player'])
-					return 'good call'
+                                        result = 'good call'
 				elif move == 'BELIEVE' and truth:
 					self.clear_table()
 					self.board_write(out + '|GOOD|P%d'%(player.position))
-					return 'good call'
+                                        result = 'good call'
+				self.last_move = {'player':player.position, 'call':move, 'claim':'', 'cards':''}
+                                return result
 		else:
 			claim, cards = split_move(move)
 			# print claim, cards, self.last_move['claim']
