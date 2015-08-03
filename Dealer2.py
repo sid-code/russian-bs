@@ -112,6 +112,7 @@ class Game():
 			if (int(claim[0]) != len(cards) or (not self.last_move['call'] and claim[1] != self.last_move['claim'][1])):
 				raise InvalidMove(move,self.last_move)
 			player.play_cards(cards)
+                        self.table += cards[:]
 			self.last_move = {'player':player.position, 'call':False, 'claim':claim, 'cards':','.join(cards)}
 			self.board_write('PLAY|P%d|%s|%d'%(player.position, claim, len(player.cards)))
 			return 'cards'
