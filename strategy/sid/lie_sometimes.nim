@@ -18,12 +18,37 @@ proc findAppropriateCard(cs: seq[Card]): Card =
 
   return cs[0]
 
+# Check if the last play was definitely a lie
+# true = maybe truth
+# false = definitely lying
+#
+# we cannot prove that they are telling the truth
+proc checkLastPlay(game: RBSGame): bool =
+    let (who, lastPlay) = game.history[^1]
+    discard who
+    if lastPlay.kind != aPlay:
+      # We can't call BS or BELIEVE on another call
+      return true
+
+    let (cnum, crank) = lastPlay.play
+    # If there's more than (4 - cnum) cards of rank crank, then they're definitely
+    # lying
+
+    return game.discardPile.findRank(crank).len > 4 - cnum
+
 proc calculateMove(game: RBSGame, hand: seq[Card]): string =
   if hand.len == 0:
     # We have to make the correct call.
-    return "BELIEVE"
+    if not checkLastPlay(game):
+      return "BS"
+    else:
+      # There could be better logic here but for now let's just believe it
+      return "BELIEVE"
 
   if game.rankLock:
+    if not checkLastPlay(game):
+      return "BS"
+
     let
       rank = game.currentClaim
       possibleCards = hand.findRank(rank)
