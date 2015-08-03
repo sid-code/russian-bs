@@ -1,4 +1,4 @@
-package bs.entity;
+package bs.game;
 
 /**
  * Representation of a single playing card
