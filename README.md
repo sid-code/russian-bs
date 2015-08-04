@@ -41,6 +41,11 @@ Hand file:
 ```
 PLAYER|P0                       # Your name
 HAND|2H,2C,2D,3H, ...           # List of cards, separated by comma
+# Those two lines are written by the dealer and read by the player.
+# The following line is written by the player
+23;2D,3H                        # claim ("two threes");cards,to,play
+HAND|2H,2C, ...                 # Updated hand, written by dealer
+BELIEVE                         # Player writes a call
 ```
 
 ## To-Do list
