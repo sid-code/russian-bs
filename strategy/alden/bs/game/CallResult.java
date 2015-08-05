@@ -23,7 +23,18 @@ public class CallResult implements Reaction {
      * @see Play#getCards()
      */
     public CallResult(Play play, Call call) {
-        List<Card> revealed = play.getCards();
+        this(play, call, play.getCards());
+    }
+
+    /**
+     * Calculate the result of a given call made on a given play, where the play
+     * object and the cards contained in the play are supplied separately.
+     * @param play a play
+     * @param call a call made in response to that play
+     * @param revealed the cards revealed by that call
+     */
+    public CallResult(Play play, Call call, List<Card> revealed) {
+        this.revealed = revealed;
         pileSize = play.getPileSize();
         boolean truthful = true;
         for (Card c : revealed) {
