@@ -31,13 +31,13 @@ public abstract class Move implements Reaction {
     }
 
     /**
-     * Sets the {@link Reaction} to this move, if it has not already been set
-     * @param move the move that was made after this one
+     * Sets the {@code Reaction} to this move, if it has not already been set
+     * @param reaction the reaction to this move
      * @throws IllegalStateException if the reaction has already been set
      */
-    public void setReaction(Move move) {
-        if (reaction == null) {
-            reaction = move;
+    public void setReaction(Reaction reaction) {
+        if (this.reaction == null) {
+            this.reaction = reaction;
         } else {
             throw new IllegalStateException("Reaction was already set.");
         }
