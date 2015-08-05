@@ -85,7 +85,7 @@ public class SidHandFile implements HandReader, MoveWriter {
     public void write(Move move) {
         String output;
         if (move instanceof Call) {
-            switch ((Call) move) {
+            switch (((Call) move).getType()) {
                 case BELIEVE:
                     output = "BELIEVE";
                     break;
