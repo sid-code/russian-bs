@@ -104,4 +104,12 @@ public class KnownPlayer {
     public List<Card> getCards() {
         return new ArrayList<Card>(cards);
     }
+
+    /**
+     * @return {@code true} iff the hand size reported by {@link #asPlayer()}
+     *         matches the number of cards actually known by this object.
+     */
+    public boolean isConsistent() {
+        return cards.size() == hiddenPlayer.getHandSize();
+    }
 }
