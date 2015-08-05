@@ -30,8 +30,7 @@ public class Play extends Move {
         cards = null;
         this.claim = claim;
         this.size = size;
-        pileSize = previous.getPileSize() + size;
-        previous.setReaction(this);
+        initPrevious(previous);
     }
 
     /**
@@ -47,8 +46,7 @@ public class Play extends Move {
         this.claim = claim;
         this.cards = new ArrayList<Card>(cards);
         size = cards.size();
-        pileSize = previous.getPileSize() + size;
-        previous.setReaction(this);
+        initPrevious(previous);
     }
 
     /**
@@ -60,11 +58,7 @@ public class Play extends Move {
      * @param size the number of cards being played
      */
     public Play(Player player, Rank claim, int size) {
-        super(player);
-        cards = null;
-        this.claim = claim;
-        this.size = size;
-        pileSize = size;
+        this(player, null, claim, size);
     }
 
     /**
@@ -75,11 +69,7 @@ public class Play extends Move {
      * @param cards a nonempty list of cards to play
      */
     public Play(Player player, Rank claim, List<Card> cards) {
-        super(player);
-        this.claim = claim;
-        this.cards = new ArrayList<Card>(cards);
-        size = cards.size();
-        pileSize = size;
+        this(player, null, claim, cards);
     }
 
     /**
@@ -118,5 +108,20 @@ public class Play extends Move {
      */
     public int getSize() {
         return size;
+    }
+
+    /**
+     * Called as part of constructors; sets up things involving the previous
+     * play.
+     * @param previous the previous play, or {@code null} if this is a new
+     *            round.
+     */
+    private void initPrevious(Play previous) {
+        if (previous == null) {
+            pileSize = size;
+        } else {
+            pileSize = previous.getPileSize() + size;
+            previous.setReaction(this);
+        }
     }
 }
