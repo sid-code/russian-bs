@@ -69,6 +69,7 @@ public class KnownPlayer {
                     // a failed call; we only have access to the most recent
                     // play, so either the whole pile will be correctly added,
                     // or the game-running logic is flawed.
+                    result.getRecipient().processWinners();
                 }
             }
             moves.add(move);

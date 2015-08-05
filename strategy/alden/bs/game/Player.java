@@ -1,6 +1,7 @@
 package bs.game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -8,10 +9,35 @@ import java.util.List;
  * @author Alden
  * @see KnownPlayer
  */
-public class Player {
+public class Player implements Iterable<Player> {
+    private class Iter implements Iterator<Player> {
+        private Player next;
+        private boolean haventReturnedThis;
+
+        public Iter() {
+            next = Player.this;
+            haventReturnedThis = true;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return next != Player.this || haventReturnedThis;
+        }
+
+        @Override
+        public Player next() {
+            Player result = next;
+            next = next.getSuccessor();
+            haventReturnedThis = false;
+            return result;
+        }
+    }
+
     private int handSize;
     private int number;
     private List<Move> moves;
+    private Player successor;
+    private boolean playing;
 
     /**
      * Construct a player with a given player number and a hand of a given size
@@ -21,6 +47,7 @@ public class Player {
     public Player(int number, int handSize) {
         this.number = number;
         this.handSize = handSize;
+        playing = true;
     }
 
     /**
@@ -42,6 +69,29 @@ public class Player {
      */
     public int getNumber() {
         return number;
+    }
+
+    /**
+     * @return the next player in the (cyclic) sequence of players
+     * @throws IllegalStateException if the successor has not been set
+     * @see #nextToPlay()
+     */
+    public Player getSuccessor() {
+        if (successor == null) {
+            throw new IllegalStateException("Successor has not been set.");
+        } else {
+            return successor;
+        }
+    }
+
+    /**
+     * Returns an iterator over the players in the same game, starting with
+     * {@code this} and ending with the player whose successor is {@code this}.
+     * @return an iterator over one cycle of play
+     */
+    @Override
+    public Iterator<Player> iterator() {
+        return new Iter();
     }
 
     /**
@@ -70,9 +120,42 @@ public class Player {
                 throw new NullPointerException("Result of call unknown.");
             } else {
                 result.getRecipient().changeHandSize(result.getPileSize());
+                result.getRecipient().processWinners();
             }
         }
         moves.add(move);
+    }
+
+    /**
+     * @return the next player in order who has not yet won (is still playing),
+     *         or {@code} null if no other players are still playing
+     * @throws IllegalStateException if while traversing the player cycle, a
+     *             player is encountered with no successor
+     * @see #getSuccessor()
+     */
+    public Player nextToPlay() {
+        Player candidate = getSuccessor();
+        while (candidate != this) {
+            if (candidate.playing) {
+                return candidate;
+            }
+            candidate = candidate.getSuccessor();
+        }
+        return null;
+    }
+
+    /**
+     * Sets which player follows this player in sequence, if it has not already
+     * been set.
+     * @param successor the next player in the playing order
+     * @throws IllegalStateException if the successor has already been set
+     */
+    public void setSuccessor(Player successor) {
+        if (this.successor == null) {
+            this.successor = successor;
+        } else {
+            throw new IllegalStateException("Successor was already set");
+        }
     }
 
     /**
@@ -80,5 +163,18 @@ public class Player {
      */
     protected void changeHandSize(int difference) {
         handSize += difference;
+    }
+
+    /**
+     * Determine if any players have won (have empty hands), and update their
+     * playing status accordingly. This should only be called at the end of a
+     * given round.
+     */
+    protected void processWinners() {
+        for (Player p : this) {
+            if (p.getHandSize() == 0) {
+                p.playing = false; // winner!
+            }
+        }
     }
 }
