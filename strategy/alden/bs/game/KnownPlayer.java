@@ -92,9 +92,12 @@ public class KnownPlayer {
     }
 
     public void addCards(Collection<Card> cards) {
+        // Though expectedHandSize will usually be updated by changeHandSize
+        // logic, it's important to correctly set it during the first deal.
+        if (this.cards.size() == 0) {
+            hiddenPlayer.changeHandSize(cards.size());
+        }
         this.cards.addAll(cards);
-        // No need to update HiddenPlayer's expectedHandSize; it should have
-        // been or should soon be updated by changeHandSize logic.
     }
 
     public Player asPlayer() {
