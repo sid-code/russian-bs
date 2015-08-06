@@ -1,11 +1,9 @@
 import os, strutils, math
 import cards, rbslib
 
-let args = commandLineParams()
-if args.len == 0:
-  raise newException(Exception, "This program can only be run from the dealer")
-
-let (game, player, hand) = getGameState(args)
+const
+  # If we're about to lie, this stops it from happening
+  chanceToNotLie = 0.2
 
 # This proc searches a list of cards for one for which there exist others
 # in the list with the same rank. This is to avoid playing important cards
@@ -85,7 +83,13 @@ proc calculateMove(game: RBSGame, hand: seq[Card]): string =
     let play = hand.findRank(maxRank)
     return makePlay(play, maxRank)
 
+randomize()
 
+let args = commandLineParams()
+if args.len == 0:
+  raise newException(Exception, "This program can only be run from the dealer")
+
+let (game, player, hand) = getGameState(args)
 
 let move = calculateMove(game, hand)
 echo move
