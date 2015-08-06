@@ -154,16 +154,18 @@ public class SidBoardFile implements GameReader {
                 kpNumber = resultPlayer.getNumber();
             }
             int i = playerNumbers.indexOf(kpNumber) + 1;
+            int ii = i;
             if (i == 0) {
                 throw new RuntimeException("Indicated player not present.");
             }
             Player lastSuccessor = resultPlayer;
-            for (; i < kpNumber + playerNumbers.size() - 1; i++) {
+            for (; i < ii + playerNumbers.size() - 1; i++) {
                 int hand = DECK_SIZE / playerNumbers.size();
                 if (i < (DECK_SIZE % playerNumbers.size())) {
                     hand++;
                 }
-                Player p = new Player(playerNumbers.get(i), hand);
+                Player p = new Player(
+                        playerNumbers.get(i % playerNumbers.size()), hand);
                 lastSuccessor.setSuccessor(p);
                 lastSuccessor = p;
             }
