@@ -36,10 +36,6 @@ public class KnownPlayer {
 
         @Override
         public int getHandSize() {
-            if (expectedHandSize != cards.size()) {
-                // Throwing an exception seems extreme
-                System.err.println("Warning: expectedHandSize != cards.size()");
-            }
             return expectedHandSize;
         }
 
