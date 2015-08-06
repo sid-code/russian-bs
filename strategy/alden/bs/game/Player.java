@@ -141,7 +141,7 @@ public class Player implements Iterable<Player> {
             }
             candidate = candidate.getSuccessor();
         }
-        return null;
+        return candidate;
     }
 
     /**
