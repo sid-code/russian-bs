@@ -58,12 +58,15 @@ public class KnownPlayer {
                 if (result == null) {
                     throw new NullPointerException("result of call unknown.");
                 } else {
-                    result.getRecipient().changeHandSize(result.getPileSize());
+                    if (result.getRecipient() != null) {
+                        result.getRecipient()
+                        .changeHandSize(result.getPileSize());
+                    }
                     // There's no sense in trying to add the whole pile here for
                     // a failed call; we only have access to the most recent
                     // play, so either the whole pile will be correctly added,
                     // or the game-running logic is flawed.
-                    result.getRecipient().processWinners();
+                    processWinners();
                 }
             }
             moves.add(move);
@@ -108,5 +111,10 @@ public class KnownPlayer {
      */
     public boolean isConsistent() {
         return cards.size() == hiddenPlayer.getHandSize();
+    }
+
+    public void resetCards(List<Card> freshHand) {
+        cards.clear();
+        cards.addAll(freshHand);
     }
 }

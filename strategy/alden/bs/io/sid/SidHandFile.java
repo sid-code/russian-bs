@@ -24,7 +24,7 @@ public class SidHandFile implements HandReader, MoveWriter {
     private static final Pattern PLAYER_PATTERN = Pattern.compile(
             "PLAYER\\|P\\d+");
     private static final Pattern HAND_PATTERN = Pattern.compile(
-            "HAND\\|[A[2-9]TJQK][DHCS](,[A[2-9]TJQK][DHCS])*");
+            "HAND\\|([A[2-9]TJQK][DHCS])?(,[A[2-9]TJQK][DHCS])*");
 
     private File handFile;
 
@@ -44,6 +44,37 @@ public class SidHandFile implements HandReader, MoveWriter {
                 String line = in.nextLine();
                 if (HAND_PATTERN.matcher(line).matches()) {
                     hand = line.substring(5);
+                }
+            }
+            if (hand == null) {
+                throw new RuntimeException(handFile.getAbsolutePath() +
+                        " contains no valid hand information");
+            } else {
+                String[] cards = hand.split(",");
+                ArrayList<Card> result = new ArrayList<Card>(cards.length);
+                for (String card : cards) {
+                    if (!"".equals(card)) {
+                        result.add(new Card(card));
+                    }
+                }
+                return result;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Error reading " + handFile.getAbsolutePath(),
+                    e);
+        }
+    }
+
+    @Override
+    public List<Card> initialHand() {
+        try (Scanner in = new Scanner(handFile)) {
+            String hand = null;
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                if (HAND_PATTERN.matcher(line).matches()) {
+                    hand = line.substring(5);
+                    break;
                 }
             }
             if (hand == null) {

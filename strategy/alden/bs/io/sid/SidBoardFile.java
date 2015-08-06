@@ -56,8 +56,10 @@ public class SidBoardFile implements GameReader {
             throw new RuntimeException("Call result does not agree");
         }
         int recipientNum = Integer.valueOf(tokens[5].substring(1));
-        if (result.getRecipient().getNumber() != recipientNum) {
-            throw new RuntimeException("Recipient does nto agree");
+        if (result.getRecipient() != null) {
+            if (result.getRecipient().getNumber() != recipientNum) {
+                throw new RuntimeException("Recipient does not agree");
+            }
         }
         call.setReaction(result);
         player.move(call);
@@ -107,8 +109,9 @@ public class SidBoardFile implements GameReader {
     @Override
     public KnownPlayer incorporatePrivate(HandReader reader) {
         KnownPlayer kp = new KnownPlayer(reader.playerNumber());
+        kp.addCards(reader.initialHand());
         readFile(kp.asPlayer());
-        kp.addCards(reader.currentHand());
+        kp.resetCards(reader.currentHand());
         if (!kp.isConsistent()) {
             throw new RuntimeException("Inconsistent hand and board files");
         }

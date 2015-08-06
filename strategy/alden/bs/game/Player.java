@@ -120,8 +120,10 @@ public class Player implements Iterable<Player> {
             if (result == null) {
                 throw new NullPointerException("Result of call unknown.");
             } else {
-                result.getRecipient().changeHandSize(result.getPileSize());
-                result.getRecipient().processWinners();
+                if (result.getRecipient() != null) {
+                    result.getRecipient().changeHandSize(result.getPileSize());
+                }
+                processWinners();
             }
         }
         moves.add(move);

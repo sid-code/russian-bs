@@ -11,5 +11,7 @@ import bs.game.Card;
 public interface HandReader {
     public List<Card> currentHand();
 
+    public List<Card> initialHand();
+
     public int playerNumber();
 }
