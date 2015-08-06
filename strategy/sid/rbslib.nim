@@ -4,7 +4,7 @@ import cards
 type
   RBSActionType* = enum
     aPlay, aBS, aBEL
-  
+
   RBSAction* = object
     case kind*: RBSActionType
       of aPlay: play*: tuple[number: int, rank: Rank]
