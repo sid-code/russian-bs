@@ -41,7 +41,7 @@ public class SidBoardFile implements GameReader {
     }
 
     private static Call parseCall(String line, Player anyPlayer, Play previous) {
-        String[] tokens = line.split("|");
+        String[] tokens = line.split("\\|");
         int playerNum = Integer.valueOf(tokens[1].substring(1));
         Player player = findPlayer(anyPlayer, playerNum);
         Call.Type type = Call.Type.valueOf(tokens[2]);
@@ -65,7 +65,7 @@ public class SidBoardFile implements GameReader {
     }
 
     private static Play parsePlay(String line, Player anyPlayer, Play previous) {
-        String[] tokens = line.split("|");
+        String[] tokens = line.split("\\|");
         int playerNum = Integer.valueOf(tokens[1].substring(1));
         Player player = findPlayer(anyPlayer, playerNum);
         int e2len = tokens[2].length();
