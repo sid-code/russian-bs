@@ -77,7 +77,10 @@ public class SidBoardFile implements GameReader {
         Play play = new Play(player, previous, claim, size);
         player.move(play);
         if (player.getHandSize() != cardsLeft) {
-            throw new RuntimeException("Hand size does not agree.");
+            throw new RuntimeException(String.format(
+                    "getHandSize() == %d != %d == cardsLeft",
+                    player.getHandSize(),
+                    cardsLeft));
         }
         return play;
     }
@@ -164,7 +167,8 @@ public class SidBoardFile implements GameReader {
             Player lastSuccessor = resultPlayer;
             for (; i < ii + playerNumbers.size() - 1; i++) {
                 int hand = DECK_SIZE / playerNumbers.size();
-                if (i < (DECK_SIZE % playerNumbers.size())) {
+                if ((i % playerNumbers.size())
+                        < (DECK_SIZE % playerNumbers.size())) {
                     hand++;
                 }
                 Player p = new Player(
