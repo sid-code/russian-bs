@@ -21,7 +21,7 @@ proc findAppropriateCard(cs: seq[Card]): Card =
 # false = definitely lying
 #
 # we cannot prove that they are telling the truth
-proc checkLastPlay(game: RBSGame): bool =
+proc checkLastPlay(game: RBSGame, cardsInHand: seq[Card]): bool =
     let (who, lastPlay) = game.history[^1]
     discard who
 
@@ -33,7 +33,10 @@ proc checkLastPlay(game: RBSGame): bool =
     # If there's more than (4 - cnum) cards of rank crank, then they're definitely
     # lying
 
-    return game.discardPile.findRank(crank).len + cnum <= 4
+    let knownNumber = game.discardPile.findRank(crank).len + cardsInHand.findRank(crank).len
+
+    return knownNumber + cnum <= 4
+
 
 proc calculateMove(game: RBSGame, hand: seq[Card]): string =
   if hand.len == 0:
