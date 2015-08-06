@@ -96,6 +96,29 @@ public class Player implements Iterable<Player> {
     }
 
     /**
+     * To make Players more convenient as views of an entire game, return the
+     * most recent move made in this player's game, or {@code null} if the no
+     * moves have been made yet. This should only be called when it is this
+     * player's turn.
+     * @return the last move made before this player's current turn
+     */
+    public Move lastMove() {
+        Player previous = this;
+        while (previous.nextToPlay() != this) {
+            previous = previous.nextToPlay();
+        }
+        List<Move> prevMoves = previous.getMoves();
+        Move lastMove = null;
+        if (prevMoves.size() > 0) {
+            lastMove = prevMoves.get(prevMoves.size() - 1);
+        }
+        if (lastMove != null && lastMove.getReaction() instanceof Move) {
+            lastMove = (Move) lastMove.getReaction();
+        }
+        return lastMove;
+    }
+
+    /**
      * This is called when this player makes a move. It adds {@code move} to
      * this player's list of moves, and decreases this player's hand size if
      * {@code move} is a {@link Play}. If {@code move} is a {@link Call}, it

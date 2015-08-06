@@ -9,7 +9,6 @@ import bs.game.Card.Rank;
 import bs.game.KnownPlayer;
 import bs.game.Move;
 import bs.game.Play;
-import bs.game.Player;
 
 /**
  * A very basic strategy that plays truthfully whenever possible and calls
@@ -17,6 +16,7 @@ import bs.game.Player;
  * @author Alden
  */
 public class HonestChump implements Strategy {
+
     /**
      * Generate a play of as many cards as possible of a given rank.
      * @param self the player playing those cards
@@ -36,23 +36,7 @@ public class HonestChump implements Strategy {
 
     @Override
     public Move makeMove(KnownPlayer self) {
-        // The nearest player before self in the order who is still playing.
-        Player previous = self.asPlayer();
-        while (previous.nextToPlay() != self.asPlayer()) {
-            previous = previous.nextToPlay();
-        }
-        List<Move> prevMoves = previous.getMoves();
-        // The most recent move to be made
-        Move lastMove = null;
-        if (prevMoves.size() > 0) {
-            // This will only not be the case when the game has just begun.
-            lastMove = prevMoves.get(prevMoves.size() - 1);
-        }
-        if (lastMove != null && lastMove.getReaction() instanceof Move) {
-            // lastMove was not actually last, because it had a reaction that
-            // was another Move, made by self.
-            lastMove = (Move) lastMove.getReaction();
-        }
+        Move lastMove = self.asPlayer().lastMove();
         if (lastMove instanceof Play) {
             Rank toMatch = ((Play) lastMove).getClaim();
             for (Card c : self.getCards()) {
