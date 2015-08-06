@@ -47,6 +47,7 @@ public class Player implements Iterable<Player> {
     public Player(int number, int handSize) {
         this.number = number;
         this.handSize = handSize;
+        moves = new ArrayList<Move>();
         playing = true;
     }
 
