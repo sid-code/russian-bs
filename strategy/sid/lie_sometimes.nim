@@ -41,14 +41,14 @@ proc checkLastPlay(game: RBSGame, cardsInHand: seq[Card]): bool =
 proc calculateMove(game: RBSGame, hand: seq[Card]): string =
   if hand.len == 0:
     # We have to make the correct call.
-    if not checkLastPlay(game):
+    if not checkLastPlay(game, hand):
       return "BS"
     else:
       # There could be better logic here but for now let's just believe it
       return "BELIEVE"
 
   if game.rankLock:
-    if not checkLastPlay(game):
+    if not checkLastPlay(game, hand):
       return "BS"
 
     let
