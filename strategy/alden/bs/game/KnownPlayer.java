@@ -92,7 +92,7 @@ public class KnownPlayer {
     }
 
     public void addCards(Collection<Card> cards) {
-        cards.addAll(cards);
+        this.cards.addAll(cards);
         // No need to update HiddenPlayer's expectedHandSize; it should have
         // been or should soon be updated by changeHandSize logic.
     }
