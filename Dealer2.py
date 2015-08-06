@@ -132,7 +132,7 @@ class Game():
 							pass
 						elif len(p.cards) == 0:
 							self.winners.append(p.position)
-							print "P%d"%(p.position), "has won!"
+							print "WIN|P%d"%(p.position)
 				if outcome in ['cards','bad call']:
 					self.to_move = (self.to_move + 1) % self.n_players
 				elif outcome == 'good call':
