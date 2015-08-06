@@ -53,12 +53,6 @@ public class KnownPlayer {
             if (move instanceof Play) {
                 Play play = (Play) move;
                 expectedHandSize -= play.getSize();
-                for (Card c : play.getCards()) {
-                    if (!moves.remove(c)) {
-                        throw new IllegalArgumentException(
-                                "Play contains cards not in hand");
-                    }
-                }
             } else if (move instanceof Call) {
                 CallResult result = ((Call) move).getReaction();
                 if (result == null) {
