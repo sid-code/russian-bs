@@ -10,43 +10,66 @@ import bs.game.Card.Rank;
  * Representation of a play of some cards
  * @author Alden
  */
-public class Play implements Move {
+public class Play extends Move {
     private Rank claim;
     private int size;
+    private int pileSize;
     private List<Card> cards;
 
     /**
-     * Given a list of some cards, construct a {@code Play} of them where the
-     * claimed rank is the rank of the first card in the list.
-     * @param cards a nonempty list of cards to play
-     */
-    public Play(List<Card> cards) {
-        this(cards.get(0).getRank(), cards);
-    }
-
-    /**
-     * Given a rank and a number, construct a {@code Play} of that many cards
-     * claiming that rank. This should be used for situations where the actual
-     * cards played are unknown (i.e. opponent plays).
+     * Construct a {@code Play} of a given number of cards claiming a given rank
+     * that continues an existing round. This should be used for situations
+     * where the actual cards played are unknown (i.e. opponent plays).
+     * @param player who played the cards
+     * @param previous the previous play in the round
      * @param claim the claimed rank of the cards being played
      * @param size the number of cards being played
      */
-    public Play(Rank claim, int size) {
+    public Play(Player player, Play previous, Rank claim, int size) {
+        super(player);
         cards = null;
         this.claim = claim;
         this.size = size;
+        initPrevious(previous);
     }
 
     /**
-     * Given a rank and a list of some cards, construct a {@code Play} of those
-     * cards claiming that rank.
+     * Construct a {@code Play} of a given list of cards by a given player
+     * claiming a given rank that continues an existing round.
+     * @param player who played the cards
+     * @param previous the previous play in the round
      * @param claim the claimed rank of the cards being played
      * @param cards a nonempty list of cards to play
      */
-    public Play(Rank claim, List<Card> cards) {
+    public Play(Player player, Play previous, Rank claim, List<Card> cards) {
+        super(player);
         this.claim = claim;
         this.cards = new ArrayList<Card>(cards);
         size = cards.size();
+        initPrevious(previous);
+    }
+
+    /**
+     * Construct a {@code Play} of a given number of cards claiming a given rank
+     * that begins a new round. This should be used for situations where the
+     * actual cards played are unknown (i.e. opponent plays).
+     * @param player who played the cards
+     * @param claim the claimed rank of the cards being played
+     * @param size the number of cards being played
+     */
+    public Play(Player player, Rank claim, int size) {
+        this(player, null, claim, size);
+    }
+
+    /**
+     * Construct a {@code Play} of a given list of cards by a given player
+     * claiming a given rank that begins a new round.
+     * @param player who played the cards
+     * @param claim the claimed rank of the cards being played
+     * @param cards a nonempty list of cards to play
+     */
+    public Play(Player player, Rank claim, List<Card> cards) {
+        this(player, null, claim, cards);
     }
 
     /**
@@ -69,9 +92,36 @@ public class Play implements Move {
     }
 
     /**
+     * @return the total number of cards on the table after this play
+     */
+    public int getPileSize() {
+        return pileSize;
+    }
+
+    @Override
+    public Move getReaction() {
+        return (Move) super.getReaction();
+    }
+
+    /**
      * @return the number of cards in this play
      */
     public int getSize() {
         return size;
+    }
+
+    /**
+     * Called as part of constructors; sets up things involving the previous
+     * play.
+     * @param previous the previous play, or {@code null} if this is a new
+     *            round.
+     */
+    private void initPrevious(Play previous) {
+        if (previous == null) {
+            pileSize = size;
+        } else {
+            pileSize = previous.getPileSize() + size;
+            previous.setReaction(this);
+        }
     }
 }
