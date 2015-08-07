@@ -98,8 +98,7 @@ public class Player implements Iterable<Player> {
     /**
      * To make Players more convenient as views of an entire game, return the
      * most recent move made in this player's game, or {@code null} if the no
-     * moves have been made yet. This should only be called when it is this
-     * player's turn.
+     * moves have been made yet.
      * @return the last move made before this player's current turn
      */
     public Move lastMove() {
