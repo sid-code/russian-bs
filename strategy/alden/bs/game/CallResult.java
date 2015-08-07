@@ -14,6 +14,7 @@ public class CallResult implements Reaction {
     private List<Card> revealed;
     private int pileSize;
     private Player recipient;
+    private Play nextRound;
 
     /**
      * Calculate the result of a given call made on a given play
@@ -60,6 +61,13 @@ public class CallResult implements Reaction {
     }
 
     /**
+     * @return the first play of the next round, or null if it has not been set
+     */
+    public Play getNextRound() {
+        return nextRound;
+    }
+
+    /**
      * @return the total number of cards on the table at the time of the call
      */
     public int getPileSize() {
@@ -79,6 +87,19 @@ public class CallResult implements Reaction {
      */
     public List<Card> getRevealed() {
         return new ArrayList<Card>(revealed);
+    }
+
+    /**
+     * Links this result, which ends a particular round, to the beginning of the
+     * next round.
+     * @param play the first play of the next round
+     */
+    public void setNextRound(Play play) {
+        if (nextRound == null) {
+            nextRound = play;
+        } else {
+            throw new IllegalStateException("Next round was already set.");
+        }
     }
 
     /**

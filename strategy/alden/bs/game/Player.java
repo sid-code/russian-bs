@@ -103,19 +103,24 @@ public class Player implements Iterable<Player> {
      * @return the last move made before this player's current turn
      */
     public Move lastMove() {
-        Player previous = this;
-        while (previous.nextToPlay() != this) {
-            previous = previous.nextToPlay();
+        Move result = null;
+        for (Player p : this) {
+            if (!p.getMoves().isEmpty()) {
+                result = p.getMoves().get(p.getMoves().size() - 1);
+                while (result.getReaction() instanceof Move) {
+                    result = (Move) result.getReaction();
+                }
+                while (result.getReaction() != null
+                        && ((Call) result).getReaction().getNextRound() != null) {
+                    result = ((Call) result).getReaction().getNextRound();
+                    while (result.getReaction() instanceof Move) {
+                        result = (Move) result.getReaction();
+                    }
+                }
+                break;
+            }
         }
-        List<Move> prevMoves = previous.getMoves();
-        Move lastMove = null;
-        if (prevMoves.size() > 0) {
-            lastMove = prevMoves.get(prevMoves.size() - 1);
-        }
-        if (lastMove != null && lastMove.getReaction() instanceof Move) {
-            lastMove = (Move) lastMove.getReaction();
-        }
-        return lastMove;
+        return result;
     }
 
     /**

@@ -178,19 +178,25 @@ public class SidBoardFile implements GameReader {
             }
             lastSuccessor.setSuccessor(resultPlayer);
 
+            CallResult previousRound = null;
             while (in.hasNextLine()) {
                 line = in.nextLine();
                 if (!PLAY_PATTERN.matcher(line).matches()) {
                     throw new RuntimeException("PLAY expected to start round.");
                 }
                 Play currentPlay = parsePlay(line, resultPlayer, null);
+                if (previousRound != null) {
+                    previousRound.setNextRound(currentPlay);
+                }
                 while (in.hasNextLine()) {
                     line = in.nextLine();
                     if (PLAY_PATTERN.matcher(line).matches()) {
                         currentPlay =
                                 parsePlay(line, resultPlayer, currentPlay);
                     } else if (CALL_PATTERN.matcher(line).matches()) {
-                        parseCall(line, resultPlayer, currentPlay);
+                        previousRound =
+                                parseCall(line, resultPlayer, currentPlay)
+                                        .getReaction();
                         break;
                     } else {
                         throw new RuntimeException(
